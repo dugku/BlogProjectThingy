@@ -5,6 +5,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy import update
 from fastapi.templating import Jinja2Templates
 
+
 import models
 from databases import engine, SessionLocal
 
@@ -71,7 +72,7 @@ async def PostBlog(Incoming: IncomingPost,db: Session = Depends(get_db)):
 
     return{"Message" : "Successful"}
 
-@app.get('/getPost/{id}/')
+@app.get('/getPost/{id}/{author}')
 async def PostBlog(id: int, request:Request, db: Session = Depends(get_db)):
     stmt = db.query(models.Post).filter(models.Post.postId == id).first()
 
@@ -87,18 +88,30 @@ async def PostBlog(id: int, request:Request, db: Session = Depends(get_db)):
     }
     return template.TemplateResponse("post.html", context)
 
-@app.get("/createContent")
-async def makeAPost(request:Request):
+@app.get("/createContnet")
+async def makingPost(request:Request):
+
     context = {
         "request": request
     }
 
     return template.TemplateResponse("makePost.html", context)
 
-@app.put("/like")
+
+@app.put("/like/{id}/{author}")
 async def ManageLikes():
     return{"Message": "WIP"}
 
-@app.put("/dislike")
+@app.put("/dislike/{id}/{author}")
 async def ManageDislikes():
     return{"Message": "WIP"}
+
+@app.delete("/delete")
+async def deleteAll(db: Session = Depends(get_db)):
+    stmt = db.query(models.Post).delete()
+    
+    db.commit()
+
+
+    return{"message": "Deletion completed"}
+

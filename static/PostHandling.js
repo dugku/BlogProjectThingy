@@ -1,17 +1,23 @@
-document.addEventListener("DOMContentLoaded", () => {
+var button = document.getElementById("GetThis");
+var title = document.getElementById("title");
+var author = document.getElementById("auth");
+var postBody = document.getElementById("postBody");
 
-   var button = document.getElementById("GetThis");
-   var title = document.getElementById("title");
-   var author = document.getElementById("auth");
-   var postBody = document.getElementById("postBody");
+button.addEventListener("click", async () => {
+    sendPostInfo = {
+        "Post": postBody.value,
+        "Author": author.value,
+        "Title": title.value
+    }
 
-    button.addEventListener("click", () => {
-        sendPostInfo = {
-            "title": title.value,
-            "author": author.value,
-            "post": postBody.value
-        }
-
-        console.log(sendPostInfo)
+    await fetch("http://127.0.0.1:8000/PostContent/", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(sendPostInfo)
     })
+
+    window.location.href = "http://127.0.0.1:8000/home/"
 })
+
