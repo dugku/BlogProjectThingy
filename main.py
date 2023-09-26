@@ -98,13 +98,29 @@ async def makingPost(request:Request):
     return template.TemplateResponse("makePost.html", context)
 
 
-@app.put("/like/{id}/{author}")
-async def ManageLikes():
+@app.put("/like/{id}")
+async def ManageLikes(id: int, db: Session = Depends(get_db)):
+    post = db.query(models.Post).filter(models.Post.postId == id).first()
+
+    if post:
+        post.Likes += 1
+        db.commit()
+
     return{"Message": "WIP"}
 
-@app.put("/dislike/{id}/{author}")
-async def ManageDislikes():
+@app.put("/dislike/{id}")
+async def ManageDislikes(id: int, db: Session = Depends(get_db)):
+    post = db.query(models.Post).filter(models.Post.postId == id).first()
+
+    if post:
+        post.Dislike += 1
+        db.commit()
+
     return{"Message": "WIP"}
+
+@app.put("")
+async def Comments():
+    return {"message": "WIP"}
 
 @app.delete("/delete")
 async def deleteAll(db: Session = Depends(get_db)):

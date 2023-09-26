@@ -32,9 +32,13 @@
                       <p class="card-text">
                        {{stuff.post}}
                       </p>
-                      <a href="/getPost/{{stuff.id}}/{{stuff.author}}" class="btn btn-primary">Go somewhere</a>
-                      <a href="#" class="btn btn-secondary btn-sm">Go somewhere</a>
-                      <a href="#" class="btn btn-secondary btn-sm">Go somewhere</a>
+                      <div class="row">
+                        <div class="col d-flex justify-content-center p-2">
+                          <a href="/getPost/{{stuff.id}}/{{stuff.author}}" class="btn btn-primary w-50 h-50px">Read More</a>
+                          <a href="#" class="btn btn-secondary w-25 h-30px" onclick="Likes(this)" data-id="{{stuff.id}}">{{stuff.likes}}</a>
+                          <a href="#" class="btn btn-secondary w-25 h-30px" onclick="Dislikes(this)" data-id="{{stuff.id}}">{{stuff.dislikes}}</a>
+                        </div>
+                      </div>
                     </div>
                   </div>
             </div>
@@ -43,6 +47,7 @@
     
         </div>
     </div>
+    <script src="{{ url_for('static', path='/LikesHandler.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 </body>
 </html>
